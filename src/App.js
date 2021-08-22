@@ -13,6 +13,8 @@ class App extends React.Component {
 
     const { isAuthenticated } = this.props.auth0;
 
+console.log(process.env.REACT_APP_SERVER);
+
     return (
       <>
         {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
