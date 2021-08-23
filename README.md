@@ -55,9 +55,14 @@ pls see Authors
 * How will you approach each other and the challenge of building an application knowing that it is impossible for two people to be at the exact same place in understanding and skill level?
 
 
+&nbsp;
+
+
 
 # Day 1 
 
+
+&nbsp;
 
 Name of feature: Set up your repositories
 
@@ -70,6 +75,7 @@ Finish time: 2:30
 Actual time needed to complete: 30 min
 
 
+&nbsp;
 
 
 Name of feature: Authentication
@@ -81,3 +87,32 @@ Start time: 2:30
 Finish time: 4:00
 
 Actual time needed to complete: 1.5 hour
+
+&nbsp;
+
+
+
+# Day 2 
+
+Name of feature: Storage
+
+Estimate of time needed to complete: 1 hours 
+
+Start time: 2:30
+
+Finish time: 3:30
+
+Actual time needed to complete: 1 hour
+
+&nbsp;
+
+
+Name of feature: Book Component
+
+Estimate of time needed to complete: 2 hours 
+
+Start time: 3:30
+
+Finish time: 4:00
+
+Actual time needed to complete: 30 min
