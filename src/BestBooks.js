@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Jumbotron, Form, Button } from "react-bootstrap/";
+import {  Form, Button } from "react-bootstrap/";
 import "./BestBooks.css";
 
 import { withAuth0 } from "@auth0/auth0-react";
@@ -37,7 +37,7 @@ class MyFavoriteBooks extends React.Component {
   sendBook = async (event) => {
     event.preventDefault();
     
-
+console.log("sendBook is runnig");
     let title = event.target.title.value;
 
     let description = event.target.description.value;
@@ -47,7 +47,8 @@ class MyFavoriteBooks extends React.Component {
       title,
       description,
     };
-   
+    console.log("sendBook before resdata");
+    console.log(process.env.REACT_APP_DATABASE, "this link");
     let resData = await axios.post(
       `${process.env.REACT_APP_DATABASE}/addbook`,
       bookDataObj
@@ -56,15 +57,20 @@ class MyFavoriteBooks extends React.Component {
     await this.setState({
       books: resData.data,
     });
+
+    console.log("sendBook finished runnig");
   };
 
-  deleteBook = async (index) => {
+
+
+
+  deleteBook = async (id) => {
     
     let paramsObj = {
       email: this.state.email,
     };
 
-    let resData = await axios.delete(`${process.env.REACT_APP_DATABASE}/deletebook/${index}`, { params: paramsObj });
+    let resData = await axios.delete(`${process.env.REACT_APP_DATABASE}/deletebook/${id}`, { params: paramsObj });
 
     await this.setState({
       books: resData.data,
@@ -95,10 +101,11 @@ class MyFavoriteBooks extends React.Component {
               placeholder="Book description"
               name="description"
             />
+            <input type="submit" value="Add cat" />
           </Form.Group>
-          <Button type="submit"  variant="primary">
+          {/* <Button type="submit"  variant="primary">
               Add book
-            </Button>
+            </Button> */}
         </Form>
 
 
@@ -110,7 +117,7 @@ class MyFavoriteBooks extends React.Component {
                 <li key={i}>
                   <h4> {item.title}</h4>
                   <p>{item.description}</p>
-                  <Button variant="bottom" variant="danger" onClick={() => this.deleteBook(i)}>
+                  <Button variant="bottom" variant="danger" onClick={this.deleteBook(i)}>
                   Delete 
                         </Button>
                  
