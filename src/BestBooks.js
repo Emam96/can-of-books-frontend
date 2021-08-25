@@ -101,11 +101,11 @@ console.log("sendBook is runnig");
               placeholder="Book description"
               name="description"
             />
-            <input type="submit" value="Add cat" />
+            {/* <input type="submit" value="Add cat" /> */}
           </Form.Group>
-          {/* <Button type="submit"  variant="primary">
+          <Button type="submit"  variant="primary">
               Add book
-            </Button> */}
+            </Button>
         </Form>
 
 
@@ -117,7 +117,7 @@ console.log("sendBook is runnig");
                 <li key={i}>
                   <h4> {item.title}</h4>
                   <p>{item.description}</p>
-                  <Button variant="bottom" variant="danger" onClick={this.deleteBook(i)}>
+                  <Button variant="bottom" variant="danger" onClick={() => this.deleteBook(i)}>
                   Delete 
                         </Button>
                  
