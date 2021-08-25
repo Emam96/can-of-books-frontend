@@ -18,10 +18,15 @@ li {
   list-style-type: none;
   position: relative;
   height: 175px;
+  
+  
 }
 
 li button {
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.5rem;
+  
+
+margin-right: 2rem;
+float: right;
+
+
 }

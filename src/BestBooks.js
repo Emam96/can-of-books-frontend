@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Button } from "react-bootstrap/";
+import { Modal, Button } from "react-bootstrap/";
 import "./BestBooks.css";
-
+import BookForm from "./components/bookAddForm";
+import UpdateBook from "./components/updateBook";
 import { withAuth0 } from "@auth0/auth0-react";
 
 class MyFavoriteBooks extends React.Component {
@@ -12,6 +13,8 @@ class MyFavoriteBooks extends React.Component {
     this.state = {
       email: "",
       books: [],
+      showUpdateForm: false,
+      selectedBook: {},
     };
   }
 
@@ -33,7 +36,7 @@ class MyFavoriteBooks extends React.Component {
       books: booksData.data,
     });
 
-    console.dir(booksData.data[0].title);
+    // console.dir(booksData.data[0].title);
   };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,42 +71,62 @@ class MyFavoriteBooks extends React.Component {
   //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   deleteBook = async (bookID) => {
-
     let resData = await axios.delete(
       `${process.env.REACT_APP_DATABASE}/deletebook/${bookID}?email=${this.state.email}`
     );
 
-     this.setState({
+    this.setState({
       books: resData.data,
     });
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  updateBookButton = async (bookID) => {
+    await this.setState({
+      showUpdateForm: false,
+    });
+
+    let pressedBook = this.state.books.find((book) => {
+      return book._id === bookID;
+    });
+
+    this.setState({
+      selectedBook: pressedBook,
+      showUpdateForm: true,
+    });
+  };
+
+  updateBook = async (e) => {
+    e.preventDefault();
+    let bookData = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+      email: this.state.email,
+    };
+
+    let bookID = this.state.selectedBook._id;
+    let booksData = await axios.put(
+      `${process.env.REACT_APP_DATABASE}/updateBook/${bookID}`,
+      bookData
+    );
+    this.setState({
+      books: booksData.data,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      showUpdateForm: false,
+    });
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   render() {
     return (
       <>
-        <Form onSubmit={this.sendBook}>
-          <Form.Group>
-            <Form.Control
-              className="mb-2"
-              type="text"
-              placeholder="Book name"
-              name="title"
-            />
-
-            <Form.Control
-              className="mb-2"
-              type="text"
-              placeholder="Book description"
-              name="description"
-            />
-            {/* <input type="submit" value="Add cat" /> */}
-          </Form.Group>
-          <Button type="submit" variant="primary">
-            Add book
-          </Button>
-        </Form>
+        <BookForm sendBook={this.sendBook} />
 
         <div className="tab2">
           <ul>
@@ -114,11 +137,16 @@ class MyFavoriteBooks extends React.Component {
                     <h4> {item.title}</h4>
                     <p>{item.description}</p>
                     <Button
-                      variant="bottom"
                       variant="danger"
                       onClick={() => this.deleteBook(item._id)}
                     >
                       Delete
+                    </Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => this.updateBookButton(item._id)}
+                    >
+                      Update
                     </Button>
                   </li>
                 );
@@ -126,6 +154,19 @@ class MyFavoriteBooks extends React.Component {
             ) : (
               <p>No Books added yet</p>
             )}
+
+            {/* {this.state.showUpdateForm && */}
+            <Modal show={this.state.showUpdateForm} onHide={this.handleClose}>
+              <Modal.Title>Update Book Info</Modal.Title>
+              <UpdateBook
+                bookInfo={this.state.selectedBook}
+                updateBook={this.updateBook}
+              />
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+            </Modal>
+            {/* } */}
           </ul>
         </div>
       </>
