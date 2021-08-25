@@ -83,7 +83,7 @@ class MyFavoriteBooks extends React.Component {
   render() {
     return (
       <>
-        <Form onSubmit={this.sendBook}></Form>
+        <Form onSubmit={this.sendBook}>
           <Form.Group>
             <Form.Control
               className="mb-2"
